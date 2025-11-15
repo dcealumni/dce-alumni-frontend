@@ -112,7 +112,7 @@ const Register = () => {
           role: "user",
         };
 
-        axios.post('https://dce-server.vercel.app/users', userData)
+        axios.post(`${import.meta.env.VITE_API_URL}users`, userData)
           .then(() => {
             navigate("/verify-email", { 
               state: { email: email, name: name }

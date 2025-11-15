@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
   };
   
   // create user with email validation
-  const createUser = (email, password) => {
+  const createUser = (email, password, name) => {
     if (!validateEmail(email)) {
       return Promise.reject(new Error("Invalid email address"));
     }
@@ -31,18 +31,25 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
-        // Store temporary user data
-        setTempUserData(result.user);
+        // Update user profile with name if provided
+        const updatePromise = name 
+          ? updateProfile(result.user, { displayName: name })
+          : Promise.resolve();
         
-        // Send email verification
-        return sendEmailVerification(result.user)
-          .then(() => {
-            // Sign out immediately so they can't access protected resources
-            return signOut(auth).then(() => {
-              setLoading(false);
-              return { user: result.user, email };
+        return updatePromise.then(() => {
+          // Store temporary user data
+          setTempUserData(result.user);
+          
+          // Send email verification
+          return sendEmailVerification(result.user)
+            .then(() => {
+              // Sign out immediately so they can't access protected resources
+              return signOut(auth).then(() => {
+                setLoading(false);
+                return { user: result.user, email };
+              });
             });
-          });
+        });
       })
       .catch(error => {
         setLoading(false);

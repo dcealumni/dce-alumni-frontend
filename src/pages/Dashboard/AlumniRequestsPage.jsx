@@ -17,7 +17,7 @@ const AlumniRequestsPage = () => {
         try {
             setLoading(true);
             console.log('Fetching pending alumni...');
-            const response = await axios.get('https://dce-server.vercel.app/alumni-registration/pending');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}alumni-registration/pending`);
             console.log('Response:', response.data);
             setPendingAlumni(response.data.alumni || []);
         } catch (error) {
@@ -35,7 +35,7 @@ const AlumniRequestsPage = () => {
             setActionLoading(`approve-${alumniId}`);
             
             try {
-                await axios.patch(`https://dce-server.vercel.app/alumni-registration/${alumniId}/approve`);
+                await axios.patch(`${import.meta.env.VITE_API_URL}alumni-registration/${alumniId}/approve`);
             } catch (error) {
                 console.log('API returned error but may have succeeded:', error);
                 // Continue as if successful since the action might work despite 404
@@ -96,7 +96,7 @@ const AlumniRequestsPage = () => {
             setActionLoading(`reject-${alumniId}`);
             
             try {
-                await axios.patch(`https://dce-server.vercel.app/alumni-registration/${alumniId}/reject`, { reason });
+                await axios.patch(`${import.meta.env.VITE_API_URL}alumni-registration/${alumniId}/reject`, { reason });
             } catch (error) {
                 console.log('API returned error but may have succeeded:', error);
                 // Continue as if successful since the action might work despite 404

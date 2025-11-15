@@ -43,14 +43,14 @@ const AlumniPage = () => {
             //console.log('🔍 Fetching approved alumni with live user data...');
             
             // Fetch approved alumni registrations
-            const alumniResponse = await axios.get('https://dce-server.vercel.app/alumni-registration/approved');
+            const alumniResponse = await axios.get(`${import.meta.env.VITE_API_URL}alumni-registration/approved`);
             const alumniRegistrations = alumniResponse.data.alumni || [];
             //console.log('Approved registrations:', alumniRegistrations);
             
             // Fetch all users to get live profile data with fallback handling
             let users = [];
             try {
-                const usersResponse = await axios.get('https://dce-server.vercel.app/users');
+                const usersResponse = await axios.get(`${import.meta.env.VITE_API_URL}users`);
                 users = usersResponse.data || [];
                // console.log('All users:', users);
             } catch (userError) {
@@ -107,7 +107,7 @@ const AlumniPage = () => {
             setActionLoading(`remove-${alumniId}`);
             
             try {
-                await axios.patch(`https://dce-server.vercel.app/alumni-registration/${alumniId}/remove-approval`);
+                await axios.patch(`${import.meta.env.VITE_API_URL}alumni-registration/${alumniId}/remove-approval`);
             } catch (error) {
                 //console.log('API returned error but may have succeeded:', error);
                 // Continue as if successful since the action might work despite 404
@@ -153,7 +153,7 @@ const AlumniPage = () => {
             setActionLoading(`delete-${alumniId}`);
             
             try {
-                await axios.delete(`https://dce-server.vercel.app/alumni-registration/${alumniId}`);
+                await axios.delete(`${import.meta.env.VITE_API_URL}alumni-registration/${alumniId}`);
             } catch (error) {
                 //console.log('API returned error but may have succeeded:', error);
                 // Continue as if successful since the action might work despite 404

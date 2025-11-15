@@ -122,7 +122,7 @@ const UsersPage = () => {
 
     if (result.isConfirmed) {
       try {
-        const response = await axios.delete(`https://dce-server.vercel.app/users/${userId}`);
+        const response = await axios.delete(`${import.meta.env.VITE_API_URL}users/${userId}`);
         
         if (response.data.success) {
           // Remove from users list in UI
@@ -289,8 +289,9 @@ const UsersPage = () => {
                         </button>
                         <button 
                           onClick={() => handleDeleteUser(user._id?.$oid || user._id || user.id)}
-                          className="text-red-600 hover:text-red-900 flex items-center"
-                          title="Delete user"
+                          className="text-red-600 hover:text-red-900 flex items-center opacity-70 cursor-not-allowed"
+                          title="Delete user (disabled)"
+                          disabled
                         >
                           <FaTrash className="mr-1" />
                           <span>Delete</span>
