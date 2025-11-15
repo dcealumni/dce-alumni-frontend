@@ -13,7 +13,7 @@ const Committee = () => {
         const fetchCommitteeData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('https://dce-server.vercel.app/committees');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}committees`);
                 
                 console.log("API Response:", response.data);
                 

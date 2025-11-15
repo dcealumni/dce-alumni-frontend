@@ -42,7 +42,7 @@ const AllPastEvents = () => {
 
   const fetchPastEvents = async () => {
     try {
-      const response = await axios.get('https://dce-server.vercel.app/events');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}events`);
       console.log('API Response:', response.data);
       
       const allEvents = response.data.events || response.data || [];

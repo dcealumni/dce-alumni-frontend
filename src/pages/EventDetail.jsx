@@ -15,7 +15,7 @@ const EventDetail = () => {
         const fetchEventDetail = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`https://dce-server.vercel.app/events/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}events/${id}`);
                 console.log("API Response:", response.data);
                 
                 // Handle different API response structures

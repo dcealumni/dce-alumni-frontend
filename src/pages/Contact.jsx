@@ -33,7 +33,7 @@ const Contact = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('https://dce-server.vercel.app/contact', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}contact`, formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
