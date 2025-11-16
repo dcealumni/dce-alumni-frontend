@@ -41,7 +41,7 @@ const Home = () => {
                 
                 // First try the specific upcoming events endpoint
                 try {
-                    const response = await axios.get(`${import.meta.env.VITE_API_URL}events/upcoming`);
+                    const response = await axios.get('https://dce-server.vercel.app/events/upcoming');
                     console.log('Upcoming Events Response:', response.data);
                     
                     if (response.data.success && response.data.events) {
@@ -53,7 +53,7 @@ const Home = () => {
                 }
                 
                 // Fallback: fetch all events and filter for upcoming
-                const allEventsResponse = await axios.get(`${import.meta.env.VITE_API_URL}events`);
+                const allEventsResponse = await axios.get('https://dce-server.vercel.app/events');
                 console.log('All Events Response:', allEventsResponse.data);
                 
                 let allEvents = [];
@@ -86,7 +86,7 @@ const Home = () => {
         const fetchLatestNews = async () => {
             try {
                 setLoadingNews(true);
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}events`);
+                const response = await axios.get('https://dce-server.vercel.app/events');
                 const allEvents = response.data.events || response.data || [];
                 const news = allEvents.filter(event => event.eventType === 'News').slice(0, 3);
                 setLatestNews(news);
@@ -106,7 +106,7 @@ const Home = () => {
         const fetchSuccessStories = async () => {
             try {
                 setLoadingStories(true);
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}events`);
+                const response = await axios.get('https://dce-server.vercel.app/events');
                 const allEvents = response.data.events || response.data || [];
                 const stories = allEvents.filter(event => event.eventType === 'Success Story').slice(0, 2);
                 setSuccessStories(stories);

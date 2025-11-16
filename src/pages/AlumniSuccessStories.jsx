@@ -14,7 +14,7 @@ const AlumniSuccessStories = () => {
         const fetchSuccessStories = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}events`);
+                const response = await axios.get('https://dce-server.vercel.app/events');
                 console.log('All Events API Response:', response.data);
                 
                 let allEvents = [];

@@ -64,7 +64,7 @@ const Profile = () => {
       setError(null);
       
       // Fetch user profile data
-      axios.get(`${import.meta.env.VITE_API_URL}users/${user.email}`)
+      axios.get(`https://dce-server.vercel.app/users/${user.email}`)
         .then(response => {
           if (response.data) {
             const data = {
@@ -86,7 +86,7 @@ const Profile = () => {
       const checkAlumniStatus = async () => {
         try {
           // Primary: try checking status by Firebase UID
-          const statusResponse = await axios.get(`${import.meta.env.VITE_API_URL}alumni-registration/status-by-uid/${user.uid}`);
+          const statusResponse = await axios.get(`https://dce-server.vercel.app/alumni-registration/status-by-uid/${user.uid}`);
           console.log('Initial alumni registration status by UID:', statusResponse.data);
           
           if (statusResponse.data && statusResponse.data.success && statusResponse.data.registration) {
@@ -120,7 +120,7 @@ const Profile = () => {
           
           try {
             // Fallback: try checking if user has submitted
-            const checkResponse = await axios.get(`${import.meta.env.VITE_API_URL}alumni-registration/check-by-uid/${user.uid}`);
+            const checkResponse = await axios.get(`https://dce-server.vercel.app/alumni-registration/check-by-uid/${user.uid}`);
             console.log('Initial alumni registration check by UID:', checkResponse.data);
             
             if (checkResponse.data.hasSubmitted && checkResponse.data.submission) {
@@ -157,7 +157,7 @@ const Profile = () => {
       checkAlumniStatus();
       
       // Check if user has a research profile with meaningful content
-      axios.get(`${import.meta.env.VITE_API_URL}research/${user.email}`)
+      axios.get(`https://dce-server.vercel.app/research/${user.email}`)
         .then(response => {
           if (response.data && response.data._id) {
             // Check if profile has meaningful research content
@@ -252,7 +252,7 @@ const Profile = () => {
 
       // Try PUT first for existing users, if it fails with 404, use POST to create
       try {
-        const response = await axios.put(`${import.meta.env.VITE_API_URL}users/${user.email}`, updatedData);
+        const response = await axios.put(`https://dce-server.vercel.app/users/${user.email}`, updatedData);
         
         setUpdateMessage(
           alumniRegistrationStatus === 'approved' 
@@ -271,7 +271,7 @@ const Profile = () => {
       } catch (putError) {
         // If PUT fails (user doesn't exist), try POST to create
         if (putError.response && putError.response.status === 404) {
-          const createResponse = await axios.post(`${import.meta.env.VITE_API_URL}users`, updatedData);
+          const createResponse = await axios.post(`https://dce-server.vercel.app/users`, updatedData);
           
           setUpdateMessage("Profile created successfully!");
           setIsEditing(false);

@@ -27,14 +27,14 @@ const Alumni = () => {
             console.log('🔍 Fetching alumni data using JOIN approach...');
             
             // Fetch approved alumni registrations
-            const alumniRegistrationsResponse = await axios.get(`${import.meta.env.VITE_API_URL}alumni-registration/approved`);
+            const alumniRegistrationsResponse = await axios.get('https://dce-server.vercel.app/alumni-registration/approved');
             const approvedRegistrations = alumniRegistrationsResponse.data.alumni || [];
             console.log('Approved registrations:', approvedRegistrations);
             
             // Fetch all users with fallback handling
             let allUsers = [];
             try {
-                const usersResponse = await axios.get(`${import.meta.env.VITE_API_URL}users`);
+                const usersResponse = await axios.get('https://dce-server.vercel.app/users');
                 allUsers = usersResponse.data || [];
                 console.log('All users:', allUsers);
             } catch (userError) {

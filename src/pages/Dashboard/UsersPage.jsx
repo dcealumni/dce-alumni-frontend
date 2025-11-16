@@ -16,7 +16,7 @@ const UsersPage = () => {
     const fetchUsers = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}users`);
+        const response = await axios.get('https://dce-server.vercel.app/users');
         // Filter only users with role 'user' (not admins)
         const regularUsers = response.data.filter(user => user.role === 'user');
         setUsers(regularUsers);
@@ -64,7 +64,7 @@ const UsersPage = () => {
     if (result.isConfirmed) {
       try {
         // Update the user role to 'admin'
-        const response = await axios.patch(`${import.meta.env.VITE_API_URL}users/${userId}`, { role: 'admin' });
+        const response = await axios.patch(`https://dce-server.vercel.app/users/${userId}`, { role: 'admin' });
         
         if (response.data.success) {
           // Remove from users list in UI
@@ -109,62 +109,9 @@ const UsersPage = () => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'This user will be permanently deleted!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete user!'
-    });
-
-    if (result.isConfirmed) {
-      try {
-        const response = await axios.delete(`${import.meta.env.VITE_API_URL}users/${userId}`);
-        
-        if (response.data.success) {
-          // Remove from users list in UI
-          const updatedUsers = users.filter(user => (user._id?.$oid || user._id || user.id) !== userId);
-          setUsers(updatedUsers);
-          setFilteredUsers(updatedUsers.filter(
-            user => 
-              !searchQuery.trim() || 
-              user.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
-              user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-          ));
-          
-          Swal.fire({
-            title: 'Deleted!',
-            text: response.data.message || 'User deleted successfully!',
-            icon: 'success',
-            confirmButtonColor: '#3085d6'
-          });
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: response.data.message || 'Failed to delete user',
-            icon: 'error',
-            confirmButtonColor: '#d33'
-          });
-        }
-      } catch (err) {
-        console.error('Error deleting user:', err);
-        
-        let errorMessage = 'Failed to delete user. Please try again.';
-        if (err.response && err.response.data && err.response.data.message) {
-          errorMessage = err.response.data.message;
-        }
-        
-        Swal.fire({
-          title: 'Error!',
-          text: errorMessage,
-          icon: 'error',
-          confirmButtonColor: '#d33'
-        });
-      }
-    }
+  const handleDeleteUser = async (id) => {
+    // Disabled for now - will implement later
+    console.log('Delete user functionality will be implemented later', id);
   };
 
   // Pagination calculation
@@ -288,9 +235,9 @@ const UsersPage = () => {
                           <span>Make Admin</span>
                         </button>
                         <button 
-                          onClick={() => handleDeleteUser(user._id?.$oid || user._id || user.id)}
+                          onClick={() => handleDeleteUser(user.id)}
                           className="text-red-600 hover:text-red-900 flex items-center opacity-70 cursor-not-allowed"
-                          title="Delete user (disabled)"
+                          title="Delete user (coming soon)"
                           disabled
                         >
                           <FaTrash className="mr-1" />

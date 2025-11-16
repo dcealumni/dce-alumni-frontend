@@ -13,7 +13,7 @@ const ImageUpload = ({ email, onImageUpload }) => {
       formData.append('image', file);
 
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}upload-image/${email}`,
+        `https://dce-server.vercel.app/upload-image/${email}`,
         formData,
         {
           headers: {
